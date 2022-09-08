@@ -82,6 +82,9 @@ public:
     // clean all resources and threads started by the registry
     void shutdown();
 
+    // get count of lost log
+    size_t overrun_counter();
+
     std::recursive_mutex &tp_mutex();
 
     void set_automatic_registration(bool automatic_registration);
