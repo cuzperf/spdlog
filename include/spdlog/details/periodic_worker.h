@@ -14,6 +14,10 @@
 #include <functional>
 #include <mutex>
 #include <thread>
+
+#include <spdlog/common.h>
+#include <spdlog/details/os.h>
+
 namespace spdlog {
 namespace details {
 
@@ -29,6 +33,7 @@ public:
         }
 
         worker_thread_ = std::thread([this, callback_fun, interval]() {
+            os::set_thread_name("spdlog_periodic");
             for (;;)
             {
                 std::unique_lock<std::mutex> lock(this->mutex_);
