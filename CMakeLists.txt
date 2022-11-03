@@ -147,7 +147,7 @@ message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 set(SPDLOG_SRCS src/spdlog.cpp src/stdout_sinks.cpp src/color_sinks.cpp src/file_sinks.cpp src/async.cpp src/cfg.cpp)
 
 if(NOT SPDLOG_USE_STD_FORMAT AND NOT SPDLOG_FMT_EXTERNAL AND NOT SPDLOG_FMT_EXTERNAL_HO)
-    list(APPEND SPDLOG_SRCS src/fmt.cpp)
+    list(APPEND SPDLOG_SRCS src/bundled_fmtlib_format.cpp)
 endif()
 
 if(SPDLOG_BUILD_SHARED OR BUILD_SHARED_LIBS)
@@ -329,6 +329,10 @@ if(SPDLOG_INSTALL)
     # ---------------------------------------------------------------------------------------
     # Install CMake config files
     # ---------------------------------------------------------------------------------------
+    export(
+      TARGETS spdlog
+      NAMESPACE spdlog::
+      FILE "${CMAKE_CURRENT_BINARY_DIR}/${config_targets_file}")
     install(EXPORT spdlog DESTINATION ${export_dest_dir} NAMESPACE spdlog:: FILE ${config_targets_file})
 
     include(CMakePackageConfigHelpers)
